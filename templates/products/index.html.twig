@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Products{% endblock %}
+
+{% block body %}
+<div >
+    <main class="container py-5">
+        <section class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="text-white bg-dark bg-opacity-75 p-3 rounded">All Products</h1>
+            </div>
+        </section>
+
+        <section class="row">
+            <div class="col-12 mb-4">
+                <h4 class="text-white">Explore Our Products</h4>
+            </div>
+            {% for product in products %}
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100 bg-dark bg-opacity-50 text-white shadow-lg">
+                        <div class="card-img-top position-relative">
+                            <img src="{{ asset('assets/uploads/products/img_books/' ~ product.images[0].name) }}" alt="{{ product.name }}" class="img-fluid rounded">
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between bg-white text-black" style="opacity: 0.8;">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description|slice(0, 100) ~ '...' }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-black fw-bold">{{ product.price / 100 }} €</span>
+                                <a href="{{ path('products_details', {"slug": product.slug}) }}" class="btn btn-outline-dark btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+</div>
+{% endblock %}
