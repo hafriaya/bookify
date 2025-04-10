@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero b--image" style="background-image: url('{{ asset('assets/image/books.jpeg') }}'); background-size: cover; background-position: center; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="container text-center text-light">
+        <h1 class="display-4 fw-bold" style="font-size: 4rem; opacity: 1;">
+            Discover the Magic of Books...
+        </h1>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about py-5 bg-light" style="padding-top: 7rem !important; padding-bottom: 7rem !important;">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Text Column (Now on the left) -->
+            <div class="col-md-6">
+                <p class="text-muted lead">
+                    At <strong>Story Haven</strong>, we aim to bring you the magic of stories and the joy of reading. Whether it's the latest bestsellers, timeless classics, or hidden gems, we curate the best books for every reader.
+                </p>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <strong>Wide Range:</strong> Books for every taste and age.
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <strong>Trusted Quality:</strong> Carefully curated selections.
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <strong>Reader-Focused:</strong> Personalized service for you.
+                    </li>
+                </ul>
+                <a href="{{ path('categories_index') }}" class="btn btn-primary mt-4 px-4 py-2">Explore Our Collection</a>
+            </div>
+
+            <!-- Image Column (Now on the right) -->
+            <div class="col-md-6 text-center">
+                <img src="{{ asset('assets/image/about_us1.jpg') }}" class="img-fluid rounded shadow-lg" alt="About Us">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories Section -->
+<section class="categories py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Nos Catégories</h2>
+        <div class="row mb-4">
+            {% for category in categories %}
+                {% if category.parent == null %}
+                    <div class="col-12 mt-2 mb-4 text-center">
+                        <h2 class="text-white bg-dark p-3 rounded">{{ category.name }}</h2>
+                    </div>
+                    {% for subcategory in categories %}
+                        {% if subcategory.parent and subcategory.parent.id == category.id %}
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card h-100 bg-dark text-white shadow-lg">
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <h3 class="card-title">{{ subcategory.name }}</h3>
+                                        <a href="{{ path('categories_list', {slug: subcategory.slug}) }}" class="btn btn-outline-light mt-3">Voir les produits</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Products</h2>
+        <div class="row g-4">
+            {% for product in products %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="card h-100 shadow-sm">
+                        <!-- Use the first image in the images collection -->
+                        {% if product.images|length > 0 %}
+                            <img src="{{ asset('assets/uploads/products/img_books/' ~ product.images[0].name) }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="{{ asset('assets/uploads/products/img_books/default.webp') }}" class="card-img-top" alt="Default Image" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.description }}</p>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <span class="text-primary fw-bold">{{ product.price / 100 }} €</span>
+                                <a href="{{ path('products_details', {'slug': product.slug}) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<div class="main-navbar shadow-sm sticky-top">
+    <div class="top-navbar">
+        <div class="container-fluid">
+            <div class="row justify-content-around">
+                <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
+                    <a class="navbar-brand text-light text-bold" href="{{ path('home') }}">
+                        <h5 class="brand-name" style="font-size:2rem">Bookify</h5>
+                    </a>
+                </div>
+
+                <div class="col-md-5 my-auto">
+                    <ul class="nav justify-content-end">
+                        <!-- First set of links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/products">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories">Categories</a>
+                        </li>
+
+                        <!-- Second set of links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">
+                                <i class="fa fa-shopping-cart"></i> Cart
+                            </a>
+                        </li>
+
+                        <!-- Add a larger spacer (margin) between the links -->
+                        <li class="nav-item mx-5"></li> <!-- Increased mx-3 to mx-5 for more space -->
+
+                        {% if app.user %}
+                            {% if is_granted('ROLE_PRODUCT_ADMIN') %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_index') }}">Admin</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

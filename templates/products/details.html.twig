@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Détails de {{ product.name }}{% endblock %}
+
+{% block body %}
+    <main class="container mt-4 mb-5"> <!-- Added margin-top (mt-4) and margin-bottom (mb-5) -->
+        <section class="row">
+            <div class="col-6">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for iteration in 1..product.images|length %}
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ (loop.first) ? 'class="active" aria-current="true"' : '' }} aria-label="Slide {{ iteration }}"></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner">
+                        {% for image in product.images %}
+                            <div class="carousel-item {{ (loop.first) ? 'active' : '' }}">
+                                <img src="{{ asset('assets/uploads/products/img_books/' ~ image.name) }}" class="d-block w-100" alt="{{ product.name }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-6">
+                <!-- All Text in One Background Container -->
+                <div class="p-4" style="background-color: #f8f9fa; border-radius: 8px;">
+                    <!-- Product Name -->
+                    <h1 class="mb-3" style="font-size: 2rem; font-weight: bold; color: #333;">{{ product.name }}</h1>
+
+                    <!-- Description -->
+                    <p class="mb-3" style="font-size: 1.1rem; color: #555;">{{ product.description }}</p>
+
+                    <!-- Category and Price -->
+                    <p class="mb-2" style="font-size: 1rem; color: #777;">Catégorie : {{ product.categories.name }}</p>
+                    <p class="mb-4" style="font-size: 1rem; color: #777;">Prix : {{ product.price / 100 }} €</p>
+
+                    <!-- Add to Cart Button or Out of Stock Message -->
+                    {% if product.stock > 0 %}
+                        <a href="{{ path('cart_add', {id: product.id}) }}" class="btn btn-success">Ajouter au panier</a>
+                    {% else %}
+                        <p class="text-danger mb-0">Temporairement en rupture de stock</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
